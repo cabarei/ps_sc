@@ -1,0 +1,71 @@
+import json
+from http.server import *
+import base64_to_jpg as b64
+
+
+def processImage(str_img):
+    return str_img
+
+
+class GetHandler(BaseHTTPRequestHandler):
+
+    def do_POST(self):
+
+        print("post received!")
+        
+        try:
+            
+            if self.path.endswith("/process"):
+
+                content_len = int(self.headers['Content-Length'])
+                post_body = self.rfile.read(content_len)
+
+                data = str(post_body.decode('utf-8'))
+                json_data = json.loads(data)
+                str_img = json_data["img"]
+                str_img = str_img.replace("data:image/png;base64,", "")
+                first_chars = str_img[:40]
+                
+                str_img = bytes(str_img, "utf-8")
+
+
+                processed_image = b64.base64_to_jpg(str_img)
+                # print("process result:", processed_image)
+
+                print(type(processed_image))
+
+
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                #self.send_header("Access-Control-Expose-Headers", "Access-Control-Allow-Origin")
+                self.end_headers()
+
+                json_response = {"answer": "post recibido!!", "first_chars": first_chars, "img": processed_image};
+                json_response = json.dumps(json_response)
+                
+                self.wfile.write(bytes(json_response, 'utf-8'))
+
+                print("respuesta enviada")
+
+        except Exception as e:
+            print("[ERROR]" + str(e))
+
+        return
+
+
+if __name__ == "__main__":
+    HandlerClass = GetHandler
+    ServerClass = HTTPServer
+
+    protocol = "HTTP/1.0"
+    host = "0.0.0.0"
+    port = 5050
+
+    server_address = (host, port)
+
+    HandlerClass.protocol_version = protocol
+    httpd = ServerClass(server_address, HandlerClass)
+    print ('Starting server at http://0.0.0.0:5050')
+
+    httpd.serve_forever()
