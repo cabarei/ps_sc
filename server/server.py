@@ -20,12 +20,14 @@ class GetHandler(BaseHTTPRequestHandler):
 
             data = str(post_body.decode('utf-8'))
             json_data = json.loads(data)
+
             str_img = json_data["img"]
+            str_style = json_data["style"]
 
             str_img = str_img.replace("data:image/png;base64,", "")
             str_img = bytes(str_img, "utf-8")
 
-            processed_image = b64.base64_to_jpg(str_img)
+            processed_image = b64.base64_to_jpg(str_img, str_style)
 
             self.send_response(200)
             self.send_header("Content-type", "application/json")
@@ -45,12 +47,14 @@ class GetHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
 
+    print('Starting server at http://0.0.0.0:8080')
+
     HandlerClass = GetHandler
     ServerClass = HTTPServer
 
     protocol = "HTTP/1.0"
     host = "0.0.0.0"
-    port = 5050
+    port = 8080
 
     HandlerClass.protocol_version = protocol
     server_address = (host, port)
@@ -58,4 +62,3 @@ if __name__ == "__main__":
     httpd = ServerClass(server_address, HandlerClass)
     httpd.serve_forever()
     
-    print('Starting server at http://0.0.0.0:5050')
