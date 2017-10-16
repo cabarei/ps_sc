@@ -1,17 +1,33 @@
+<!DOCTYPE html>
 <html>
+
 <head>
+
 	<meta charset="utf-8" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<title>FST</title>
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+	<script src="jquery-3.2.1.min.js"></script>
 	<script src="client.js"></script>
-	<script src="photo_capture.js"></script>
+	<script src="main.js"></script>
+
 </head>
 
 <body>
 
-	<button type="button" name="send">Send photo</button>
+	<div id="header" hidden>Fast Style Transfer</div>
 
-	<video id="video"></video>
-	<canvas id="canvas" style="Visibility:hidden"></canvas>
+	<video class="img_container blue_border" id="webcam_stream" ></video>
+	<div class="img_container blue_border" id="final_image"></div>
+	<div class="img_container blue_border" id="final_filter"></div>
+	
+	<div id="send_picture" class="button">Take picture</div>
+	<div id="style_buttons_container"></div>
+	
+	<canvas id="cv" hidden></canvas>
+
 
 </body>
+
 </html>
