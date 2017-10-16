@@ -4,15 +4,17 @@ $( function() {
 	cv = document.getElementById("cv");
 
 	$(window).on("resize", resize_elements);
-	$("#send_picture").on("click", send_picture);
+	$("#take_picture").on("click", take_picture);
 
 	create_buttons();
 	resize_elements();
 
-	//activate_webcam();
-	fake_activate_webcam(); //*
+	activate_webcam();
+	// fake_activate_webcam(); //*
 
 	selected_style = -1;
+	webcam_image = "";
+
 })
 
 
@@ -43,13 +45,14 @@ function resize_elements(){
 	$("#final_image").css({top: top_margin, left: side_margin + c_width + separation});
 	$("#final_filter").css({top: top_margin, left: side_margin + c_width + separation});
 
-	sp_width = Math.min(180, Math.max(120, 0.2 * c_width));
+
+	sp_width = Math.min(180, Math.max(60, 0.2 * c_width));
 	sp_height = 0.35 * sp_width;
 
-	$("#send_picture").width(sp_width);
-	$("#send_picture").height(sp_height);
+	$("#take_picture").width(sp_width);
+	$("#take_picture").height(sp_height);
 
-	$("#send_picture").css({top: top_margin + c_height, left: side_margin + 0.5 * (c_width - sp_width), "line-height": sp_height+"px" });
+	$("#take_picture").css({top: top_margin + c_height, left: side_margin + 0.5 * (c_width - sp_width), "line-height": sp_height+"px" });
 
 	$("#style_buttons_container").width(c_width);
 	$("#style_buttons_container").css({top: top_margin + c_height, left: side_margin + c_width + separation});
@@ -69,11 +72,34 @@ function resize_elements(){
 
 function activate_webcam(){
 
-	var constraints = {audio:false, video:true};
+	// console.log("webcam!");
 
-	if (navigator.getUserMedia)
+	webcam_stream.addEventListener('playing', function(ev) {
+		console.log("playing!");
+		console.log(ev);
+	})
+
+	
+	var constraints = {audio:false, video:true};
+	var constraints = {
+		audio: true,
+		video: {
+			width: { min: 1024, ideal: 1280, max: 1920 },
+			height: { min: 576, ideal: 720, max: 1080 }
+		}
+	}
+
+
+	// function hasGetUserMedia() {
+	//   return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+	//             navigator.mozGetUserMedia || navigator.msGetUserMedia);
+	// }
+	// //o Modernizr...
+
+
+	if (navigator.getUserMedia){
 		navigator.getUserMedia(constraints, gum_success, gum_failure);
-	else
+	} else
 		gum_failure("No access to webcam");
 
 
@@ -83,8 +109,8 @@ function activate_webcam(){
 	}
 
 	function gum_failure(error) {
-		alert("Your browser does not support webcam access");
 		console.log(error);
+		alert("Your browser does not support webcam access");
 	}
 
 }
@@ -99,19 +125,21 @@ function fake_activate_webcam(){ //*
 
 
 
-function send_picture(style){
+function take_picture(style){
 
-	$("#final_image").addClass('notransition'); // Disable transitions
-	$("#final_image").css({"background-image": "url(z/z2.png)"}); //*
-	$("#final_image")[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
-	$("#final_image").removeClass('notransition');
-
-	
 	cv.getContext('2d').drawImage(webcam_stream, 0, 0, cv.width, cv.height);
 	var img_data = cv.toDataURL('image/png');
 	var img_style = style || 0;
 
-	post_to_server(img_data, img_style);
+	$("#final_image").addClass('notransition');
+	// $("#final_image").css({"background-image": "url(z/z2.png)"}); //*
+	$("#final_image").css({"background-image": "url("+img_data+")"});
+	$("#final_image")[0].offsetHeight;
+	$("#final_image").removeClass('notransition');
+
+	webcam_image = img_data;
+
+	// post_to_server(img_data, img_style);
 
 }
 
@@ -133,7 +161,10 @@ function create_buttons(){
 			selected_style = parseInt( $(this).attr("index") );
 			update_selected_style();
 			$("#final_image").css({"background-image": "url(z/z1.png)"}); //*
-			// send_picture(selected_style);
+			post_to_server(webcam_image, selected_style);
+
+			// $("#final_image").css({"background-image": "url("+processed_images[0]+")"}); //*
+			
 		})
 
 
@@ -147,7 +178,7 @@ function update_selected_style(){
 	$(".selected").removeClass("selected");
 
 	if (selected_style == -1){
-		$("#send_picture").addClass("selected");
+		$("#take_picture").addClass("selected");
 	} else {
 		$("#style_button_"+selected_style).addClass("selected");
 	}

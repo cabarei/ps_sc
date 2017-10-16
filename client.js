@@ -1,12 +1,17 @@
-function post_to_server(data){
+processed_images = [];
 
-	console.log("posting")
+
+function post_to_server(data, style){
+
+	console.log("posting");
+
+	var image_style = style || 0;
 
 	$.ajax({
-		url: 'http://localhost:5050/process',
+		url: 'http://localhost:8080/process',
 		method: "POST",
 		dataType: "json",
-		data: JSON.stringify({"test": "hi!", 'img': data}),
+		data: JSON.stringify({"img": data, "style": image_style}),
 		success: function (answer){
 			console.log("answer:", answer)
 			process_answer(answer);
@@ -20,9 +25,14 @@ function post_to_server(data){
 			 
 
 function process_answer(answer){
-	var image = new Image();
-	image.src = 'data:image/png;base64,'+answer.img;
+
+	// var image = new Image();
+	var image_src = 'data:image/png;base64,'+answer.img;
 	
 	//document.body.appendChild(image);
-	$("#final_image").src(image.src);
+
+	processed_images.unshift(image_src);
+	$("#final_image").css({"background-image": "url("+image_src+")"}); //*
+
+
 }
