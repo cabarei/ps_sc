@@ -3,18 +3,20 @@ from PIL import Image
 from io import BytesIO
 import base64
 import evaluate
+import time
 
 
 def base64_to_jpg(data, style_idx):
 
 	ROOT = "/home/ubuntu/dl/ps_sc/server/"
+	SUFIX = "_"+str(int(time.time()))
+
 	mode = "JPEG"
-	
 	extension = "png" if mode == "PNG" else "jpg"
 	
-	filename = ROOT+"original/capture."+extension
-	filename_processed = ROOT+"processed/capture" + "_processed"+"."+extension
-	filename_result = ROOT+"processed/capture."+extension
+	filename = ROOT+"original/capture"+SUFIX+"."+extension
+	filename_processed = ROOT+"processed/capture" + "_processed"+SUFIX+"."+extension
+	filename_result = ROOT+"processed/capture"+SUFIX+"."+extension
 
 	img = Image.open(BytesIO(base64.b64decode(data)))
 	if (mode == "JPEG"): img = img.convert('RGB')
