@@ -3,12 +3,15 @@ processed_images = [];
 
 function post_to_server(data, style){
 
-	console.log("posting");
-
 	var image_style = style || 0;
 
+	// var server_url = "http://localhost:8080/process";
+	var server_url = "http://34.249.147.24:8080/process";
+
+	console.log("posting to " + server_url);
+
 	$.ajax({
-		url: 'http://localhost:8080/process',
+		url: server_url,
 		method: "POST",
 		dataType: "json",
 		data: JSON.stringify({"img": data, "style": image_style}),

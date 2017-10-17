@@ -181,9 +181,11 @@ def ffwd(data_in, paths_out, checkpoint_dir, device_t='/gpu:0', batch_size=4):
         ffwd(remaining_in, remaining_out, checkpoint_dir, 
             device_t=device_t, batch_size=1)
 
-def ffwd_to_img(in_path, out_path, checkpoint_dir, device='/cpu:0'):
+
+def ffwd_to_img(in_path, out_path, checkpoint_dir, device='/gpu:0'):
     paths_in, paths_out = [in_path], [out_path]
     ffwd(paths_in, paths_out, checkpoint_dir, batch_size=1, device_t=device)
+
 
 def ffwd_different_dimensions(in_path, out_path, checkpoint_dir, 
             device_t=DEVICE, batch_size=4):
@@ -199,6 +201,7 @@ def ffwd_different_dimensions(in_path, out_path, checkpoint_dir,
         print('Processing images of shape %s' % shape)
         ffwd(in_path_of_shape[shape], out_path_of_shape[shape], 
             checkpoint_dir, device_t, batch_size)
+
 
 def build_parser():
     parser = ArgumentParser()
@@ -235,6 +238,7 @@ def check_opts(opts):
         exists(opts.out_path, 'out dir not found!')
         assert opts.batch_size > 0
 
+
 def main(style_idx):
     parser = build_parser()
     opts = parser.parse_args()
@@ -242,7 +246,7 @@ def main(style_idx):
     opts.checkpoint_dir = "models/"+str(style_idx)+".ckpt"
     print("MODEL:", opts.checkpoint_dir)
 
-    opts.in_path = "original"
+    opts.in_path = "tmp"
     opts.out_path = "processed"
     opts.allow_different_dimensions = True
 

@@ -14,7 +14,8 @@ def base64_to_jpg(data, style_idx):
 	mode = "JPEG"
 	extension = "png" if mode == "PNG" else "jpg"
 	
-	filename = ROOT+"original/capture"+SUFIX+"."+extension
+	filename_orig = ROOT+"original/capture"+SUFIX+"."+extension
+	filename_tmp = ROOT+"tmp/capture."+extension
 	filename_processed = ROOT+"processed/capture" + "_processed"+SUFIX+"."+extension
 	filename_result = ROOT+"processed/capture"+SUFIX+"."+extension
 
@@ -22,7 +23,8 @@ def base64_to_jpg(data, style_idx):
 	if (mode == "JPEG"): img = img.convert('RGB')
 
 
-	img.save(filename, mode)
+	img.save(filename_orig, mode)
+	img.save(filename_tmp, mode)
 
 	evaluate.main(style_idx)
 
