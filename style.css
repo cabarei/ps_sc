@@ -54,14 +54,14 @@ body{
 
 
 #final_image {
-    background-image:url("z/z1.png");
+    /*background-image:url("z/z1.png");*/
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    -webkit-transition:background-image 0.8s;
-    -moz-transition:background-image 0.8s;
-    -ms-transition:background-image 0.8s;
-    transition:background-image 0.8s;
+    -webkit-transition:background-image 1.5s;
+    -moz-transition:background-image 1.5s;
+    -ms-transition:background-image 1.5s;
+    transition:background-image 1.5s;
 }
 #final_image:hover {
     background-image:url("z/z2.png");
