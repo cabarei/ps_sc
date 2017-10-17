@@ -33,20 +33,20 @@ body{
 
 
 .button{
-    /*border: solid 2px #656586;*/
     border: solid 2px #383871;
+    border-color: #383871;
     border-radius: 5px;
     background-color: #2a2a2a;
     cursor: pointer;
     color: #eee;
-    -webkit-transition: background-color 0.3s;
-    -moz-transition: background-color 0.3s;
-    -ms-transition: background-color 0.3s;
-    transition: background-color 0.3s;
-    /*margin-top: 30px;*/
+    -webkit-transition: background-color 0.3s, border-color 0.3s;
+    -moz-transition: background-color 0.3s, border-color 0.3s;
+    -ms-transition: background-color 0.3s, border-color 0.3s;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 .button:hover{
     background-color: #444;
+    border-color: #fff;
 }
 .button:active, .button.activated{
     background-color: #555;
@@ -58,13 +58,12 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    -webkit-transition:background-image 1.5s;
-    -moz-transition:background-image 1.5s;
-    -ms-transition:background-image 1.5s;
-    transition:background-image 1.5s;
+    -webkit-transition:background-image 2s;
+    -moz-transition:background-image 2s;
+    -ms-transition:background-image 2s;
+    transition:background-image 2s;
 }
 #final_image:hover {
-    background-image:url("z/z2.png");
 }
 
 
@@ -120,6 +119,9 @@ body{
     display: inline-block;
     background-size: cover;
     background-repeat: no-repeat;
+}
+.style_button:hover{
+    border: solid 2px #aac;
 }
 .style_button.selected{
     border: solid 2px #10106d;
