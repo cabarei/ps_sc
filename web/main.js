@@ -34,6 +34,7 @@ function init_params(){
 }
 
 
+
 function resize_elements(){
 	
 	var w_width = $(window).width();
@@ -82,10 +83,10 @@ function resize_elements(){
 
 function activate_webcam(){
 
-	webcam_stream.addEventListener('playing', function(ev) {
-		console.log("playing!");
-		console.log(ev);
-	})
+	// webcam_stream.addEventListener('playing', function(ev) {
+	// 	console.log("playing!");
+	// 	console.log(ev);
+	// })
 
 	
 	// var constraints = {audio:false, video:true};

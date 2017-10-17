@@ -16,7 +16,7 @@ function post_to_server(data, style){
 		dataType: "json",
 		data: JSON.stringify({"img": data, "style": image_style}),
 		success: function (answer){
-			console.log("answer:", answer)
+			// console.log("answer:", answer)
 			process_answer(answer);
 		},
 		error: function( error ){
@@ -29,13 +29,10 @@ function post_to_server(data, style){
 
 function process_answer(answer){
 
-	// var image = new Image();
 	var image_src = 'data:image/png;base64,'+answer.img;
 	
-	//document.body.appendChild(image);
-
 	processed_images.unshift(image_src);
-	$("#final_image").css({"background-image": "url("+image_src+")"}); //*
+	$("#final_image").css({"background-image": "url("+image_src+")"});
 
 
 }
