@@ -239,14 +239,14 @@ def check_opts(opts):
         assert opts.batch_size > 0
 
 
-def main(style_idx):
+def main(image_file, style_idx):
     parser = build_parser()
     opts = parser.parse_args()
 
     opts.checkpoint_dir = "models/"+str(style_idx)+".ckpt"
     print("MODEL:", opts.checkpoint_dir)
 
-    opts.in_path = "tmp"
+    opts.in_path = image_file
     opts.out_path = "processed"
     opts.allow_different_dimensions = True
 
@@ -272,5 +272,3 @@ def main(style_idx):
             ffwd(full_in, full_out, opts.checkpoint_dir, device_t=opts.device,
                     batch_size=opts.batch_size)
 
-if __name__ == '__main__':
-    main()
