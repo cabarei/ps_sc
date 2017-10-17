@@ -13,7 +13,7 @@ import subprocess
 import numpy
 
 BATCH_SIZE = 4
-DEVICE = '/cpu:0'
+DEVICE = '/gpu:0'
 
 
 def from_pipe(opts):
@@ -244,6 +244,7 @@ def main(style_idx):
 
     opts.in_path = "original"
     opts.out_path = "processed"
+    opts.allow_different_dimensions = True
 
     check_opts(opts)
 
