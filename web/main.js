@@ -6,11 +6,10 @@ $( function() {
 	$(window).on("resize", resize_elements);
 	$("#take_picture").on("click", take_picture);
 
+	init_params();
 	create_buttons();
 	resize_elements();
-
 	activate_webcam();
-	// fake_activate_webcam(); //*
 
 	selected_style = -1;
 	webcam_image = "";
@@ -18,25 +17,36 @@ $( function() {
 })
 
 
+function init_params(){
+
+	ASPECT_RATIO = 16/9;
+	CAPTURE_WIDTH = 800;
+
+	IMAGES_SEPARATION = 0.06;
+	SIDE_MARGIN = 0.04;
+
+	TOP_MARGIN = 0.4;
+
+	STYLES_WIDTH = 0.85;
+	STYLES_MARGIN = 0.06;
+
+	N_STYLES = 5;
+}
+
 
 function resize_elements(){
 	
-	var aspect_ratio = 16/9;
-
 	var w_width = $(window).width();
 	var w_height = $(window).height();
 
-	var separation = 0.08 * w_width;
-	var side_margin = 0.05 * w_width;
+	var separation = IMAGES_SEPARATION * w_width;
+	var side_margin = SIDE_MARGIN * w_width;
 
-	var c_width = 0.5 * (w_width - separation) - side_margin;
-	var c_height = c_width / aspect_ratio;
+	c_width = 0.5 * (w_width - separation) - side_margin;
+	c_height = c_width / ASPECT_RATIO;
 
-	var top_margin = 0.4 * (w_height - c_height);
+	var top_margin = TOP_MARGIN * (w_height - c_height);
 
-
-	cv.width = c_width;
-	cv.height = c_height;
 
 	$(".img_container").width(c_width);
 	$(".img_container").height(c_height);
@@ -58,9 +68,9 @@ function resize_elements(){
 	$("#style_buttons_container").css({top: top_margin + c_height, left: side_margin + c_width + separation});
 
 
-	var sb_width = 0.8*(c_width / n_styles - 4);
-	var sb_height = sb_width / aspect_ratio;
-	var sb_margin = 0.08*(c_width / n_styles);
+	var sb_width = STYLES_WIDTH * (c_width / N_STYLES - 4);
+	var sb_height = sb_width / ASPECT_RATIO;
+	var sb_margin = STYLES_MARGIN * (c_width / N_STYLES);
 
 	$(".style_button").width(sb_width);
 	$(".style_button").height(sb_height);
@@ -72,15 +82,13 @@ function resize_elements(){
 
 function activate_webcam(){
 
-	// console.log("webcam!");
-
 	webcam_stream.addEventListener('playing', function(ev) {
 		console.log("playing!");
 		console.log(ev);
 	})
 
 	
-	var constraints = {audio:false, video:true};
+	// var constraints = {audio:false, video:true};
 	var constraints = {
 		audio: true,
 		video: {
@@ -116,30 +124,36 @@ function activate_webcam(){
 }
 
 
-function fake_activate_webcam(){ //*
-	webcam_stream.src = "z/zsmall.mp4";
-	webcam_stream.loop = true;
-	webcam_stream.muted = true;
-	webcam_stream.play();
-}
+// function fake_activate_webcam(){
+// 	webcam_stream.src = "z/zsmall.mp4";
+// 	webcam_stream.loop = true;
+// 	webcam_stream.muted = true;
+// 	webcam_stream.play();
+// }
 
 
 
 function take_picture(style){
 
+	cv_zoom = CAPTURE_WIDTH/c_width;
+
+	cv.width = cv_zoom * c_width;
+	cv.height = cv_zoom * c_height;
+
 	cv.getContext('2d').drawImage(webcam_stream, 0, 0, cv.width, cv.height);
 	var img_data = cv.toDataURL('image/png');
 	var img_style = style || 0;
 
+	webcam_image = img_data;
+	// post_to_server(img_data, img_style);
+	
 	$("#final_image").addClass('notransition');
-	// $("#final_image").css({"background-image": "url(z/z2.png)"}); //*
 	$("#final_image").css({"background-image": "url("+img_data+")"});
 	$("#final_image")[0].offsetHeight;
 	$("#final_image").removeClass('notransition');
 
-	webcam_image = img_data;
-
-	// post_to_server(img_data, img_style);
+	selected_style = -1;
+	update_selected_style();
 
 }
 
@@ -147,24 +161,18 @@ function take_picture(style){
 
 function create_buttons(){
 	
-	n_styles = 5;
-
-	for (var i=0; i<n_styles; i++){
+	for (var i=0; i<N_STYLES; i++){
 
 		var id = "style_button_"+i;
 		$("#style_buttons_container").append('<div id="'+id+'" index='+i+' class="button style_button"></div>');
 		
+		$("#"+id).css({"background-image": "url(styles/"+i+".jpg)"});
 
 		$("#"+id).on("click", function(){
 			selected_style = parseInt( $(this).attr("index") );
 			update_selected_style();
-			// $("#final_image").css({"background-image": "url(z/z1.png)"}); //*
-			post_to_server(webcam_image, selected_style);
-
-			// $("#final_image").css({"background-image": "url("+processed_images[0]+")"}); //*
-			
+			post_to_server(webcam_image, selected_style);			
 		})
-
 
 	}
 }
@@ -195,7 +203,7 @@ $(window).keydown(function(e){
 	}
 
 	if (e.which == 39){
-		selected_style = Math.min(n_styles-1, selected_style+1);
+		selected_style = Math.min(N_STYLES-1, selected_style+1);
 		update_selected_style();
 	}
 
