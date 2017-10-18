@@ -77,6 +77,8 @@ function resize_elements(){
 	$(".style_button").height(sb_height);
 	$(".style_button").css({"margin-left": sb_margin, "margin-right": sb_margin}); 
 
+	$("#final_loading_bar").css({top: top_margin - 25, left: side_margin + c_width + separation});
+
 }
 
 
@@ -172,7 +174,10 @@ function create_buttons(){
 		$("#"+id).on("click", function(){
 			selected_style = parseInt( $(this).attr("index") );
 			update_selected_style();
-			post_to_server(webcam_image, selected_style);			
+			post_to_server(webcam_image, selected_style);
+			
+			$("#final_loading_bar").fadeIn(1000);
+			$("#final_loading_bar").css("width", c_width);	
 		})
 
 	}
@@ -218,5 +223,9 @@ $(window).keydown(function(e){
 		setTimeout( function(){ $(".selected").removeClass("activated"); }, 150);
 		$(".selected").trigger("click");
 	}
+
+	// if (e.keyCode == 80){ //p
+	// 	restore_loading_bar();
+	// }
 
 })

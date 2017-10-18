@@ -34,5 +34,12 @@ function process_answer(answer){
 	processed_images.unshift(image_src);
 	$("#final_image").css({"background-image": "url("+image_src+")"});
 
+	restore_loading_bar();
+}
 
+
+
+function restore_loading_bar(){
+	$("#final_loading_bar").fadeOut(200);
+	$("#final_loading_bar").width(5);
 }
