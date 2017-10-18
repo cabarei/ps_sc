@@ -5,8 +5,8 @@ function post_to_server(data, style){
 
 	var image_style = style || 0;
 
-	// var server_url = "http://localhost:8080/process";
-	var server_url = "http://34.249.147.24:8080/process";
+	// var server_url = "https://localhost:8080/process";
+	var server_url = "https://34.249.147.24:8080/process";
 
 	console.log("posting to " + server_url);
 
