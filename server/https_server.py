@@ -13,6 +13,9 @@ from http.server import *
 import socketserver
 import ssl
 
+import json
+import base64_to_jpg as b64
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -101,6 +104,7 @@ def main():
     # import ssl
 
     logging.info('Server running... https://{}:{}'.format(server_host, server_port))
+    GetHandler.protocol_version = "HTTP/1.0"
     httpd = socketserver.TCPServer((server_host, server_port), GetHandler)
     httpd.socket = ssl.wrap_socket(httpd.socket, certfile=ssl_cert_path, server_side=True)
 

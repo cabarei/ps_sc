@@ -3,9 +3,6 @@ from http.server import *
 import base64_to_jpg as b64
 
 
-def processImage(str_img):
-    return str_img
-
 
 class GetHandler(BaseHTTPRequestHandler):
 
