@@ -104,8 +104,10 @@ def main():
     # import ssl
 
     logging.info('Server running... https://{}:{}'.format(server_host, server_port))
-    GetHandler.protocol_version = "HTTP/1.0"
-    httpd = socketserver.TCPServer((server_host, server_port), GetHandler)
+
+    HandlerClass = GetHandler
+    HandlerClass.protocol_version = "HTTP/1.0"
+    httpd = socketserver.TCPServer((server_host, server_port), HandlerClass)
     httpd.socket = ssl.wrap_socket(httpd.socket, certfile=ssl_cert_path, server_side=True)
 
     httpd.serve_forever()
