@@ -169,7 +169,7 @@ function create_buttons(){
 		var id = "style_button_"+i;
 		$("#style_buttons_container").append('<div id="'+id+'" index='+i+' class="button style_button"></div>');
 		
-		$("#"+id).css({"background-image": "url(styles/"+i+".jpg)"});
+		$("#"+id).css({"background-image": "url(images/styles/"+i+".jpg)"});
 
 		$("#"+id).on("click", function(){
 			selected_style = parseInt( $(this).attr("index") );
