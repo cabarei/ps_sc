@@ -11,7 +11,7 @@ class GetHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
 
-        print("post received!")
+        print("*post received")
       
         if self.path.endswith("/process"):
 
@@ -40,7 +40,7 @@ class GetHandler(BaseHTTPRequestHandler):
             
             self.wfile.write(bytes(json_response, 'utf-8'))
 
-            print("respuesta enviada")
+            print("*post answered")
 
         #return
 
