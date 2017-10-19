@@ -25,10 +25,13 @@ function init_params(){
 	IMAGES_SEPARATION = 0.06;
 	SIDE_MARGIN = 0.04;
 
-	TOP_MARGIN = 0.4;
+	TOP_MARGIN = 0.5;
 
 	STYLES_WIDTH = 0.85;
 	STYLES_MARGIN = 0.06;
+
+	LOGO_SIZE = 0.55;
+	LOGO_MARGIN = 0.15;
 
 	N_STYLES = 5;
 }
@@ -79,6 +82,19 @@ function resize_elements(){
 
 	$("#final_loading_bar").css({top: top_margin - 25, left: side_margin + c_width + separation});
 
+	// var ls_height = LOGO_SIZE * (w_height - c_height - top_margin);
+	// var ls_bottom = LOGO_MARGIN * (w_height - c_height - top_margin);
+	var ls_height = LOGO_SIZE * top_margin;
+	var ls_top = LOGO_MARGIN * top_margin;
+
+	var ls_width = ls_height * 2;
+	var ls_sidepos = side_margin;
+
+	$("#ls_logo").width(ls_width);
+	$("#ls_logo").height(ls_height);
+
+	// $("#ls_logo").css({bottom: ls_bottom, left: ls_sidepos});
+	$("#ls_logo").css({top: ls_top, right: ls_sidepos});
 }
 
 
