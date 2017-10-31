@@ -34,6 +34,7 @@ function init_params(){
 	LOGO_MARGIN = 0.15;
 
 	N_STYLES = 5;
+	
 }
 
 

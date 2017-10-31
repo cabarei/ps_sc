@@ -150,10 +150,10 @@ body{
     -moz-box-shadow: 0px 0px 8px 2px rgba(80,110,210,0.6);
     -ms-box-shadow: 0px 0px 8px 2px rgba(80,110,210,0.6);
     box-shadow: 0px 0px 8px 2px rgba(80,110,210,0.6);
-    -webkit-transition: width 5s;
-    -moz-transition: width 5s;
-    -ms-transition: width 5s;
-    transition: width 5s;
+    -webkit-transition: width 20s;
+    -moz-transition: width 20s;
+    -ms-transition: width 20s;
+    transition: width 20s;
 }
 
 

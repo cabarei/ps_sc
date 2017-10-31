@@ -9,6 +9,7 @@ import time
 def base64_to_jpg(data, style_idx):
 
 	ROOT = "/home/ubuntu/dl/ps_sc/server/"
+	ROOT = "./"
 	SUFIX = "_"+str(int(time.time()))
 
 	mode = "JPEG"
